@@ -1,0 +1,16 @@
+@import "../../scss/index.scss";
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .Logo {
+    width: 7.5rem;
+  }
+
+  h1 {
+    margin-right: auto;
+    margin-left: 3rem;
+  }
+}

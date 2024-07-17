@@ -1,8 +1,9 @@
+import Demonstration from "../../components/Demonstration/Demonstration"
 
 
 function HomePage() {
   return (
-    <div>HomePage</div>
+    <Demonstration />
   )
 }
 

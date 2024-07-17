@@ -1,0 +1,22 @@
+@import "../../scss/index.scss";
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.linkFooter1 {
+  @include footer-nav;
+  background-color: $trans-blue;
+}
+
+.linkFooter2 {
+  @include footer-nav;
+  background-color: $trans-pink;
+}
+
+.linkFooter3 {
+  @include footer-nav;
+  background-color: $trans-blue;
+}
