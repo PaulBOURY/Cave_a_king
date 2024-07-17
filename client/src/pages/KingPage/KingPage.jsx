@@ -1,8 +1,9 @@
+import KingProfile from "../../components/KingProfile/KingProfile"
 
 
 function KingPage() {
   return (
-    <div>KingPage</div>
+    <KingProfile />
   )
 }
 

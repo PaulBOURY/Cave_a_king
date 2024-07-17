@@ -9,6 +9,9 @@ import HomePage from "./pages/HomePage/HomePage";
 import KingPage from "./pages/KingPage/KingPage";
 import ContactPage from "./pages/ContactPage/ContactPage";
 import AboutUsPage from "./pages/AboutUsPage/AboutUsPage";
+import { fetchApi } from "./services/apiService";
+
+const demonstrationUrl = ""
 
 const router = createBrowserRouter([
   {
@@ -18,6 +21,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
+        loader: () => fetchApi(demonstrationUrl)
       },
       {
         path: "/king",

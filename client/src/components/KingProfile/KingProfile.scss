@@ -1,0 +1,12 @@
+@import "../../scss/index.scss";
+
+.kingProfileFigure {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .kingProfilePicture {
+    width: 30vw;
+    border-radius: 50%;
+  }
+}

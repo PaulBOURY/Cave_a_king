@@ -1,0 +1,14 @@
+@import "../../scss/index.scss";
+
+.demoTitle {
+  margin: 2rem 0;
+}
+
+.demoFigure {
+  display: flex;
+  justify-content: space-between;
+
+  .demoPoster {
+    width: 60vw;
+  }
+}
