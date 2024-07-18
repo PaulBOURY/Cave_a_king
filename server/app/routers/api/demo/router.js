@@ -3,14 +3,19 @@ const express = require("express");
 const router = express.Router();
 
 /* ************************************************************************* */
-// Import And Use Routers Here
+// Define Your API Routes Here
 /* ************************************************************************* */
 
-const itemsRouter = require("./items/router");
-const demoRouter = require("./demo/router")
+// Import item-related actions
+const { browse, add, destroy } = require("../../../controllers/demoActions");
 
-router.use("/items", itemsRouter);
-router.use("/demo", demoRouter);
+// Route to get a list of items
+router.get("/", browse);
+
+// Route to add a new item
+router.post("/", add);
+
+router.delete("/:id", destroy);
 
 /* ************************************************************************* */
 

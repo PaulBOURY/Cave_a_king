@@ -9,9 +9,9 @@ import HomePage from "./pages/HomePage/HomePage";
 import KingPage from "./pages/KingPage/KingPage";
 import ContactPage from "./pages/ContactPage/ContactPage";
 import AboutUsPage from "./pages/AboutUsPage/AboutUsPage";
-import { fetchApi } from "./services/apiService";
+import { fetchApi, sendData } from "./services/apiService";
 
-const demonstrationUrl = ""
+const demonstrationUrl = "/api/demo";
 
 const router = createBrowserRouter([
   {
@@ -21,7 +21,18 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
-        loader: () => fetchApi(demonstrationUrl)
+        loader: () => fetchApi(demonstrationUrl),
+        action: async ({ request }) => {
+          const formData = await request.formData();
+          const data = Object.fromEntries(formData.entries());
+
+          const method = request.method.toUpperCase();
+
+          const handleMethod = async (httpMethod) => {
+            await sendData(`${demonstrationUrl}`, data, httpMethod);
+          };
+          await handleMethod(method);
+        },
       },
       {
         path: "/king",
