@@ -16,16 +16,23 @@ export async function fetchApi(url) {
 
 export async function sendData(url, data, http) {
   try {
-    const response = await fetch(import.meta.env.VITE_API_URL + url, {
+    const apiUrl = import.meta.env.VITE_API_URL + url;
+    const response = await fetch(apiUrl, {
       method: http,
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
+
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
     return response;
   } catch (error) {
-    console.error("Erreur lors de la récupération des données :");
+    console.error("Error sending data:", error);
     return null;
   }
 }

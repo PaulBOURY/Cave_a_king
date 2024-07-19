@@ -1,63 +1,63 @@
-// Import access to database tables
-const Joi = require("joi");
-const tables = require("../../database/tables");
+const Joi = require('joi');
 
-// The B of BREAD - Browse (Read All) operation
-const browse = async (req, res, next) => {
-  try {
-    // Fetch all items from the database
-    const demos = await tables.Demonstration.readAll();
+const tables = require('../../database/tables');
 
-    // Respond with the items in JSON format
-    res.json(demos);
-  } catch (err) {
-    // Pass any errors to the error-handling middleware
-    next(err);
-  }
-};
-
-// The E of BREAD - Edit (Update) operation
-const edit = async (req, res, next) => {
-  const user = { ...req.body, id: req.params.id };
-  try {
-    await tables.Demonstration.update(user);
-
-    res.sendStatus(204);
-  } catch (err) {
-    next(err);
-  }
-};
-
-// Define a Joi schema for demo data validation
 const demoSchema = Joi.object({
   titre: Joi.string().required(),
   date: Joi.date().required(),
   description: Joi.string().required(),
 });
 
+const browse = async (req, res, next) => {
+  try {
+    const demos = await tables.Demonstration.readAll();
+    res.json(demos);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const read = async (req, res, next) => {
+  try {
+    const demo = await tables.Demonstration.read();
+    res.json(demo);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const add = async (req, res, next) => {
+  // Extract the demo object from the request body
   const demo = req.body;
 
-  // Validate the incoming data against the schema
+  // Validate the demo object using the schema
   const { error } = demoSchema.validate(demo);
   if (error) {
-    // If validation fails, respond with a 400 Bad Request and the validation error message
+    // If validation fails, return a 400 Bad Request with the error message
     return res.status(400).json({ error: error.details[0].message });
   }
-
   try {
-    // Insert the validated item into the database using the tables.Demonstration.create function
+    // Attempt to create a new demonstration record in the database
     const insertId = await tables.Demonstration.create(demo);
-
-    // Respond with HTTP 201 (Created) and the ID of the newly inserted item
+    // Return a 201 Created status with the ID of the inserted record
     return res.status(201).json({ insertId });
   } catch (err) {
-    // If an error occurs during insertion, pass it to the error-handling middleware
+    // If any error occurs during database operation, pass it to the next middleware
     return next(err);
   }
 };
 
-// The D of BREAD - Destroy (Delete) operation
+const edit = async (req, res, next) => {
+  const { id } = req.params;
+  const demo = { ...req.body, id };
+  try {
+    await tables.Demonstration.update(demo);
+    res.sendStatus(204);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const destroy = async (req, res) => {
   try {
     await tables.Demonstration.delete(req.params.id);
@@ -68,10 +68,4 @@ const destroy = async (req, res) => {
   }
 };
 
-// Ready to export the controller functions
-module.exports = {
-  browse,
-  edit,
-  add,
-  destroy,
-};
+module.exports = { browse, read, add, edit, destroy };

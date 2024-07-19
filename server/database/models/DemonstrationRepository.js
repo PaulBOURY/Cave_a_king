@@ -42,18 +42,31 @@ class DemonstrationRepository extends AbstractRepository {
   }
 
   // The U of CRUD - Update operation
-  // TODO: Implement the update operation to modify an existing item
+  async update(demo) {
+    // Execute the SQL UPDATE query to update a specific user
+    const [result] = await this.database.query(
+      `UPDATE ${this.table} 
+      SET 
+        titre = ?,
+        date = ?,
+        description = ?`,
+      [demo.titre, demo.date, demo.description]
+    );
 
-  // async update(item) {
-  //   ...
-  // }
+    return result.affectedRows;
+  }
 
   // The D of CRUD - Delete operation
-  // TODO: Implement the delete operation to remove an item by its ID
 
-  // async delete(id) {
-  //   ...
-  // }
+  async delete(id) {
+    // Execute the SQL DELETE query to delete a specific user
+    const [result] = await this.database.query(
+      `DELETE FROM ${this.table} WHERE id = ?`,
+      [id]
+    );
+    // Return how many rows were affected
+    return result.affectedRows;
+  }
 }
 
 module.exports = DemonstrationRepository;

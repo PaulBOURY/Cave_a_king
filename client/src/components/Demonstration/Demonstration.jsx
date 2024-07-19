@@ -1,19 +1,20 @@
+import { Form } from "react-router-dom";
+import PropTypes from "prop-types";
 import { useState } from "react";
-import PropTypes from 'prop-types';
 
 import poster from "../../assets/images/affiche_cave_a_king.png";
 
 import "./Demonstration.scss";
-import ModalDemonstration from "../ModalDemonstration/ModalDemonstration";
+import ModalModify from "../ModalModify/ModalModify";
 
-function Demonstration({demonstrationData}) {
-  const [modalDemo, setModalDemo] = useState(false);
+function Demonstration({ demonstrationData }) {
+  const [modalModify, setModalModify] = useState(false);
 
   const handleClickModal = (booleanState, setBooleanState) => () => {
     setBooleanState(!booleanState);
   };
+  
 
- 
   return (
     <>
       <h2 className="demoTitle">Nos représentations</h2>
@@ -24,21 +25,24 @@ function Demonstration({demonstrationData}) {
           className="demoPoster"
         />
         <figcaption>
-          Titre: {demonstrationData[0].titre}  Le : {demonstrationData[0].date}  Description : {demonstrationData[0].description}
+          Titre: {demonstrationData[0].titre} Le : {demonstrationData[0].date}{" "}
+          Description : {demonstrationData[0].description}
         </figcaption>
       </figure>
-      <button
-        type="button"
-        onClick={handleClickModal(modalDemo, setModalDemo)}
-        className="buttonAdd"
-      >
-        Ajouter un évènement
-      </button>
-      {modalDemo && (
-        <ModalDemonstration
+      <Form method="DELETE">
+        <button type="submit" className="buttonDelete">
+          supprimer l'évènement
+        </button>
+      </Form>
+        <button type="button" onClick={handleClickModal(modalModify, setModalModify)} className="buttonModify">
+          Modifier l'évènement
+        </button>
+        {modalModify && (
+        <ModalModify
           handleClickModal={handleClickModal}
-          modalDemo={modalDemo}
-          setModalDemo={setModalDemo}
+          modalModify={modalModify}
+          setModalModify={setModalModify}
+          demonstrationData={demonstrationData}
         />
       )}
     </>

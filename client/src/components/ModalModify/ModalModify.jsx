@@ -1,13 +1,9 @@
-import { useState } from 'react';
-import { Form } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { sendData } from '../../services/apiService'; // Adjust import path as per your project structure
+import { useState } from "react";
+import { Form } from "react-router-dom";
+import PropTypes from "prop-types";
+import { sendData } from "../../services/apiService";
 
-function ModalDemonstration({
-  handleClickModal,
-  modalDemo,
-  setModalDemo,
-}) {
+function ModalModify({ handleClickModal, modalModify, setModalModify }) {
   const demonstrationUrl = "/api/demo";
 
   const [titre, setTitre] = useState('');
@@ -24,12 +20,11 @@ function ModalDemonstration({
     };
 
     try {
-      const response = await sendData(demonstrationUrl, data, 'POST');
+      const response = await sendData(demonstrationUrl, data, 'PUT');
       if (response.ok) {
         setTitre('');
         setDate('');
         setDescription('');
-        setModalDemo(false);
       } else {
         console.error('Failed to add event:', response.statusText);
       }
@@ -39,14 +34,13 @@ function ModalDemonstration({
   };
 
   return (
-    <dialog className="dialog" open={modalDemo}>
+    <dialog className="dialog" open aria-labelledby="dialog-modify">
       <Form onSubmit={handleSubmit}>
         <label>
           Titre de l'évènement
           <input
             type="text"
-            value={titre}
-            onChange={(e) => setTitre(e.target.value)}
+            onChange={(e) => setDate(e.target.value)}
             placeholder="Titre de l'évènement"
             className="placeholder"
           />
@@ -55,33 +49,36 @@ function ModalDemonstration({
           Date
           <input
             type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
+            onChange={(e) => setTitre(e.target.value)}
             className="placeholder"
           />
         </label>
         <label>
           Description
           <textarea
-            value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Décrivez l'évènement ici"
             className="placeholder"
           />
         </label>
-        <button type="submit">Ajouter l'évènement</button>
+        <button type="submit">modifier l'évènement</button>
       </Form>
-      <button type="button" onClick={() => handleClickModal(modalDemo, setModalDemo)}>
+      <button type="button" onClick={() => handleClickModal(modalModify, setModalModify)}>
         Annuler
       </button>
     </dialog>
   );
 }
 
-ModalDemonstration.propTypes = {
+ModalModify.propTypes = {
   handleClickModal: PropTypes.func.isRequired,
-  modalDemo: PropTypes.bool.isRequired,
-  setModalDemo: PropTypes.func.isRequired,
+  modalModify: PropTypes.bool.isRequired,
+  setModalModify: PropTypes.func.isRequired,
+  demonstrationData: PropTypes.shape({
+    titre: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
-export default ModalDemonstration;
+export default ModalModify;
